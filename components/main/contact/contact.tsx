@@ -1,23 +1,26 @@
 "use client";
 import { Reveal } from "@/components/reveal";
+import { ErrorBoundary } from "react-error-boundary";
 import { Heading2 } from "../typography/headings";
 import { FormContainer } from "./components/formContainer";
 import "./css/contact.css";
 export const ContactMe = () => {
   return (
-    <section className="contact">
-      <div className="header">
-        <Reveal type="up" delay={0.2}>
-          <Heading2 ariaLabel="Contact me form">Get in Touch</Heading2>
-        </Reveal>
+    <ErrorBoundary fallback={<>Something went wrong with ContactMe</>}>
+      <section className="contact">
+        <div className="header">
+          <Reveal type="up" delay={0.2}>
+            <Heading2 ariaLabel="Contact me form">Get in Touch</Heading2>
+          </Reveal>
 
-        <Reveal type="up" delay={0.4}>
-          <p className="textBackgroundImage">{paragraphText}</p>
-        </Reveal>
-      </div>
+          <Reveal type="up" delay={0.4}>
+            <p className="textBackgroundImage">{paragraphText}</p>
+          </Reveal>
+        </div>
 
-      <FormContainer />
-    </section>
+        <FormContainer />
+      </section>
+    </ErrorBoundary>
   );
 };
 

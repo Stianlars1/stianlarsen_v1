@@ -10,13 +10,14 @@ extend({ PerspectiveCamera });
 
 // @ts-ignore
 import * as random from "maath/random/dist/maath-random.esm";
+import { ErrorBoundary } from "react-error-boundary";
 
 const StarBackground = (props: any) => {
   const ref: any = useRef();
   const { isDarkmodeActive } = useIsDarkmodeActive();
   const [delta, setDelta] = useState(0);
   const [sphere] = useState(() =>
-    random.inSphere(new Float32Array(5000), { radius: 1.2 }),
+    random.inSphere(new Float32Array(5000), { radius: 1.2 })
   );
 
   const scrollPos = props && props.scrollPosition;
@@ -111,19 +112,21 @@ const StarsCanvas = () => {
   }, []);
 
   return (
-    <div
-      className={`w-full h-auto fixed inset-0 z-[-1] pointer-events-none canvas ${
-        showCanvas ? "showCanvas" : ""
-      }`}
-    >
-      <Canvas>
-        <perspectiveCamera ref={cameraRef} position={[0, 0, 1]}>
-          <Suspense fallback={null}>
-            {showCanvas && <StarBackground scrollPosition={scrollPosition} />}
-          </Suspense>
-        </perspectiveCamera>
-      </Canvas>
-    </div>
+    <ErrorBoundary fallback={<>Something went wrong with StarsCanvas</>}>
+      <div
+        className={`w-full h-auto fixed inset-0 z-[-1] pointer-events-none canvas ${
+          showCanvas ? "showCanvas" : ""
+        }`}
+      >
+        <Canvas>
+          <perspectiveCamera ref={cameraRef} position={[0, 0, 1]}>
+            <Suspense fallback={null}>
+              {showCanvas && <StarBackground scrollPosition={scrollPosition} />}
+            </Suspense>
+          </perspectiveCamera>
+        </Canvas>
+      </div>
+    </ErrorBoundary>
   );
 };
 
