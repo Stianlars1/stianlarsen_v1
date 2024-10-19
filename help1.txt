@@ -1,0 +1,254 @@
+
+<VirtualHost _default_:443>
+ServerName stianlarsen.com
+    ServerAlias www.stianlarsen.com
+    SSLEngine on
+    SSLCertificateFile "/opt/bitnami/apache/conf/bitnami/certs/server.crt"
+    SSLCertificateKeyFile "/opt/bitnami/apache/conf/bitnami/certs/server.key"
+
+DocumentRoot "/home/bitnami/htdocs/client/stianlarsen_v2"
+
+<Directory "/home/bitnami/htdocs/client/stianlarsen_v2">
+Require all granted
+    </Directory>
+
+# Proxy for the frontend
+    ProxyPass / http://localhost:3000/ # husk å oppdatere port i frontend
+    ProxyPassReverse / http://localhost:3000/ # husk å oppdatere port i frontend
+</VirtualHost>
+
+
+
+<VirtualHost _default_:443>
+    ServerName v1.stianlarsen.com
+    SSLEngine on
+    SSLCertificateFile "/opt/bitnami/apache/conf/bitnami/certs/server.crt"
+    SSLCertificateKeyFile "/opt/bitnami/apache/conf/bitnami/certs/server.key"
+
+DocumentRoot "/home/bitnami/htdocs/client/stianlarsen_v1"
+
+<Directory "/home/bitnami/htdocs/client/stianlarsen_v1">
+Require all granted
+    </Directory>
+
+# Proxy for the frontend
+    ProxyPass / http://localhost:3001/ # husk å oppdatere port i frontend
+    ProxyPassReverse / http://localhost:3001/ # husk å oppdatere port i frontend
+
+</VirtualHost>
+
+
+
+
+
+
+
+
+# Main app
+<VirtualHost _default_:80>
+    ServerName stianlarsen.com
+    ServerAlias www.stianlarsen.com
+
+    DocumentRoot "/home/bitnami/htdocs/client/stianlarsen_v2"
+    <Directory "/home/bitnami/htdocs/client/stianlarsen_v2">
+Require all granted
+    </Directory>
+
+# Proxy for the frontend
+    ProxyPass / http://localhost:3000/ # husk å oppdatere port i frontend
+    ProxyPassReverse / http://localhost:3000/ # husk å oppdatere port i frontend
+ </VirtualHost>
+
+# Version 1 app (first iteration)
+<VirtualHost _default_:80>
+    ServerName v1.stianlarsen.com
+
+DocumentRoot "/home/bitnami/htdocs/client/stianlarsen_v1"
+
+<Directory "/home/bitnami/htdocs/client/stianlarsen_v1">
+Require all granted
+    </Directory>
+
+# Proxy for the frontend
+    ProxyPass / http://localhost:3001/ # husk å oppdatere port i frontend
+    ProxyPassReverse / http://localhost:3001/ # husk å oppdatere port i frontend
+
+</VirtualHost>
+
+
+
+
+
+
+
+
+
+
+
+
+# Main app
+<VirtualHost _default_:80>
+ServerName stianlarsen.com
+    ServerAlias www.stianlarsen.com
+  SSLCertificateFile "/opt/bitnami/apache/conf/bitnami/certs/server.crt"
+  SSLCertificateKeyFile "/opt/bitnami/apache/conf/bitnami/certs/server.key"
+    DocumentRoot "/home/bitnami/htdocs/client/stianlarsen_v2"
+    <Directory "/home/bitnami/htdocs/client/stianlarsen_v2">
+Require all granted
+    </Directory>
+
+# Proxy for the frontend
+    ProxyPass / http://localhost:3000/ 
+    ProxyPassReverse / http://localhost:3000/ 
+ </VirtualHost>
+
+# Version 1 app (first iteration)
+<VirtualHost _default_:80>
+    ServerName v1.stianlarsen.com
+  SSLCertificateFile "/opt/bitnami/apache/conf/bitnami/certs/server.crt"
+  SSLCertificateKeyFile "/opt/bitnami/apache/conf/bitnami/certs/server.key"
+    DocumentRoot "/home/bitnami/htdocs/client/stianlarsen_v1"
+
+<Directory "/home/bitnami/htdocs/client/stianlarsen_v1">
+Require all granted
+    </Directory>
+
+# Proxy for the frontend
+    ProxyPass / http://localhost:3001/ 
+    ProxyPassReverse / http://localhost:3001/ 
+
+</VirtualHost>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<VirtualHost _default_:443>
+    ServerName stianlarsen.com
+    ServerAlias www.stianlarsen.com
+    SSLEngine on
+    SSLCertificateFile "/opt/bitnami/apache/conf/stianlarsen.com.crt"
+    SSLCertificateKeyFile "/opt/bitnami/apache/conf/stianlarsen.com.key"
+
+DocumentRoot "/home/bitnami/htdocs/client/stianlarsen_v2"
+
+  # BEGIN: Configuration for letsencrypt
+  Include "/opt/bitnami/apps/letsencrypt/conf/httpd-prefix.conf"
+  # END: Configuration for letsencrypt
+  # BEGIN: Support domain renewal when using mod_proxy without Location
+  <IfModule mod_proxy.c>
+    ProxyPass /.well-known !
+  </IfModule>
+  # END: Support domain renewal when using mod_proxy without Location
+  # BEGIN: Enable www to non-www redirection
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+  RewriteCond %{HTTP_HOST} !^localhost
+  RewriteCond %{HTTP_HOST} !^[0-9]+.[0-9]+.[0-9]+.[0-9]+(:[0-9]+)?$
+  RewriteCond %{REQUEST_URI} !^/\.well-known
+  RewriteRule ^(.*)$ https://%1$1 [R=permanent,L]
+  # END: Enable www to non-www redirection
+    <Directory "/home/bitnami/htdocs/client/stianlarsen_v2">
+Require all granted
+    </Directory>
+
+# Proxy for the frontend
+    ProxyPass / http://localhost:3000/
+    ProxyPassReverse / http://localhost:3000/
+  # BEGIN: Support domain renewal when using mod_proxy within Location
+  <Location /.well-known>
+    <IfModule mod_proxy.c>
+ProxyPass !
+    </IfModule>
+  </Location>
+  # END: Support domain renewal when using mod_proxy within Location
+</VirtualHost>
+
+
+
+<VirtualHost _default_:443>
+    ServerName v1.stianlarsen.com
+    SSLEngine on
+    SSLCertificateFile "/opt/bitnami/apache/conf/stianlarsen.com.crt"
+    SSLCertificateKeyFile "/opt/bitnami/apache/conf/stianlarsen.com.key"
+
+DocumentRoot "/home/bitnami/htdocs/client/stianlarsen_v1"
+
+  # BEGIN: Configuration for letsencrypt
+  Include "/opt/bitnami/apps/letsencrypt/conf/httpd-prefix.conf"
+  # END: Configuration for letsencrypt
+  # BEGIN: Support domain renewal when using mod_proxy without Location
+  <IfModule mod_proxy.c>
+    ProxyPass /.well-known !
+  </IfModule>
+  # END: Support domain renewal when using mod_proxy without Location
+  # BEGIN: Enable www to non-www redirection
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+  RewriteCond %{HTTP_HOST} !^localhost
+  RewriteCond %{HTTP_HOST} !^[0-9]+.[0-9]+.[0-9]+.[0-9]+(:[0-9]+)?$
+  RewriteCond %{REQUEST_URI} !^/\.well-known
+  RewriteRule ^(.*)$ https://%1$1 [R=permanent,L]
+  # END: Enable www to non-www redirection
+    <Directory "/home/bitnami/htdocs/client/stianlarsen_v1">
+Require all granted
+    </Directory>
+
+# Proxy for the frontend
+    ProxyPass / http://localhost:3001/
+    ProxyPassReverse / http://localhost:3001/
+
+  # BEGIN: Support domain renewal when using mod_proxy within Location
+  <Location /.well-known>
+    <IfModule mod_proxy.c>
+ProxyPass !
+    </IfModule>
+  </Location>
+  # END: Support domain renewal when using mod_proxy within Location
+</VirtualHost>
