@@ -12,16 +12,19 @@
     gap: 0.5rem;
     border: 1px solid hsl(var(--border));
     border-radius: 1rem;
+    background-color: hsl(var(--muted));
 
     padding: 1rem;
     min-height: 150px;
 
     &__title {
       font-size: 1.2rem;
+      color: hsl(var(--foreground));
     }
 
     &__description {
       font-size: 0.895rem;
+      color: hsl(var(--muted-foreground));
     }
 
     &:hover,

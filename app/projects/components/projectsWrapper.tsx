@@ -21,17 +21,9 @@ export const ProjectsWrapper = ({ projects }: { projects: ProjectType[] }) => {
             href={`/projects/${project.currentSlug}`}
             key={project.currentSlug}
             className="projects-wrapper__item"
-            style={{ backgroundColor: darkenedBackgroundColor }}
             aria-label="Project Link"
           >
-            <h2
-              className="projects-wrapper__item__title"
-              style={{
-                color: foregroundColor,
-              }}
-            >
-              {project.title}
-            </h2>
+            <h2 className="projects-wrapper__item__title">{project.title}</h2>
             <p className="projects-wrapper__item__description">
               {project.smallDescription}
             </p>

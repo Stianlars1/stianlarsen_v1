@@ -22,9 +22,7 @@
   width: -moz-fit-content;
   width: fit-content;
   margin: 0 auto;
-  box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.1),
-    0 6px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 .resume .loading-resume {
   margin-top: 3rem;
@@ -70,4 +68,4 @@
     transform: scale(0.5);
     margin: -200px auto;
   }
-} /*# sourceMappingURL=resume.css.map */
+}/*# sourceMappingURL=resume.css.map */

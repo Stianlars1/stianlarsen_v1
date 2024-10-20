@@ -1,5 +1,5 @@
 import { PortableText, PortableTextComponents } from "@portabletext/react";
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 
 // Assuming you have a TypeScript type for your Portable Text content
 import { urlFor } from "@/lib/sanity";
@@ -48,7 +48,6 @@ const myPortableTextComponents: PortableTextComponents = {
   },
   marks: {
     link: ({ children, value }) => {
-      console.log("marks value: ", value);
       const rel = !value?.href?.startsWith("/")
         ? "noreferrer noopener"
         : undefined;
@@ -100,9 +99,7 @@ const myPortableTextComponents: PortableTextComponents = {
   // Add more customizations as needed
 };
 
-const SanityContentRenderer: React.FC<SanityContentProps> = ({
-  value,
-}): ReactElement => {
+const SanityContentRenderer = ({ value }: { value: any }): ReactElement => {
   return <PortableText value={value} components={myPortableTextComponents} />;
 };
 
